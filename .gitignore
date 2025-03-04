@@ -9,6 +9,7 @@ dist/
 
 # Environment variables
 .env
+/src/config/config.json
 
 # Logs
 logs/
