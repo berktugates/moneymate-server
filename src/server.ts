@@ -1,9 +1,11 @@
 import express from "express";
 import { json } from "express";
 import sequelize from './config/database';
+import categoryRoute from "./routes/Category";
 
 const app = express();
 app.use(json());
+app.use(categoryRoute);
 
 const syncDatabase = async () => {
     try {
