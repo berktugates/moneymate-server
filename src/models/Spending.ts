@@ -2,9 +2,10 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
 import User from "./User";
 import Category from "./Category";
+import Joi from "joi";
 
 interface ISpending {
-  id: number;
+  id?: number;
   userId: number;
   categoryId: number;
   amount: number;
@@ -57,4 +58,15 @@ Spending.init(
     timestamps: true,
   }
 );
+
+export function validateSpending(spending: ISpending) {
+  const schema = Joi.object({
+    userId: Joi.number().required(),
+    categoryId: Joi.number().required(),
+    amount: Joi.number().min(0.01).required(),
+    description: Joi.string(),
+  });
+  return schema.validate(spending);
+}
+
 export default Spending;

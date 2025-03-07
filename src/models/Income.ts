@@ -1,9 +1,10 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
 import User from "./User";
+import Joi from "joi";
 
 interface IIncome {
-  id: number;
+  id?: number;
   userId: number;
   amount: number;
   description: number;
@@ -46,4 +47,14 @@ Income.init(
     timestamps: true,
   }
 );
+
+export function validateIncome(income: IIncome) {
+  const schema = Joi.object({
+    userId: Joi.number().required(),
+    amount: Joi.number().min(0.01).required(),
+    description: Joi.string(),
+  });
+  return schema.validate(income);
+}
+
 export default Income;

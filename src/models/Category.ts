@@ -1,8 +1,9 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
+import Joi from "joi";
 
 interface ICategory {
-  id: number;
+  id?: number;
   name: string;
 }
 
@@ -29,4 +30,12 @@ Category.init(
     timestamps: true,
   }
 );
+
+export function validateCategory(category: ICategory) {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  return schema.validate(category);
+}
+
 export default Category;
