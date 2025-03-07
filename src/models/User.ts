@@ -1,6 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
-import Joi  from "joi";
+import Joi from "joi";
+import jwt from "jsonwebtoken";
 
 // user modelin özelliklerini tanımlayan interface tanımla
 interface IUser {
@@ -16,6 +17,14 @@ class User extends Model<IUser> implements IUser {
   public name!: string;
   public email!: string;
   public password!: string;
+
+  public generateAuthToken(): string {
+    const token = jwt.sign(
+      { id: this.id, email: this.email },
+      process.env.JWT_SECRET_KEY
+    );
+    return token;
+  }
 }
 
 // model şemasını tanımla
@@ -33,7 +42,7 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique:true
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -47,25 +56,26 @@ User.init(
   }
 );
 
-export function validateUser(user:IUser){
+export function validateUser(user: IUser) {
   const schema = Joi.object({
     name: Joi.string().required().min(1),
-    email:Joi.string().email().required(),
+    email: Joi.string().email().required(),
     password: Joi.string()
-    .min(8)
-    .pattern(new RegExp('^(?=.*[A-Z])')) 
-    .pattern(new RegExp('^(?=.*[a-z])')) 
-    .pattern(new RegExp('^(?=.*\\d)')) 
-    .pattern(new RegExp('^(?=.*[!@#$%^&*])'))
-    .pattern(new RegExp('^\\S+$')) 
-    .required()
-    .messages({
-        'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
-        'string.min': 'Password must be at least 8 characters long.',
-        'string.max': 'Password cannot exceed 64 characters.',
-        'string.empty': 'Password is required.',
-    })
-  })
+      .min(8)
+      .pattern(new RegExp("^(?=.*[A-Z])"))
+      .pattern(new RegExp("^(?=.*[a-z])"))
+      .pattern(new RegExp("^(?=.*\\d)"))
+      .pattern(new RegExp("^(?=.*[!@#$%^&*])"))
+      .pattern(new RegExp("^\\S+$"))
+      .required()
+      .messages({
+        "string.pattern.base":
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+        "string.min": "Password must be at least 8 characters long.",
+        "string.max": "Password cannot exceed 64 characters.",
+        "string.empty": "Password is required.",
+      }),
+  });
   return schema.validate(user);
 }
 
