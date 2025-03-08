@@ -5,11 +5,13 @@ import Joi from "joi";
 interface ICategory {
   id?: number;
   name: string;
+  userId: number;
 }
 
 class Category extends Model<ICategory> implements ICategory {
   public id!: number;
   public name!: string;
+  public userId!: number;
 }
 
 Category.init(
@@ -23,6 +25,10 @@ Category.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -34,6 +40,7 @@ Category.init(
 export function validateCategory(category: ICategory) {
   const schema = Joi.object({
     name: Joi.string().required(),
+    userId: Joi.number().required(),
   });
   return schema.validate(category);
 }
