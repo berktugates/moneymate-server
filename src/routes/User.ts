@@ -1,8 +1,10 @@
 import { Router } from "express";
 import UserController from "../controller/User";
+import ratelimitMiddleware from "../middleware/ratelimiter";
+
 const router = Router();
 
-router.post("/api/users/auth", UserController.auth);
+router.post("/api/users/auth", ratelimitMiddleware, UserController.auth);
 
 router.delete("/api/users/:id", UserController.delete);
 
