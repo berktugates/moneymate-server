@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 // user modelin özelliklerini tanımlayan interface tanımla
 interface IUser {
   id?: number;
-  name: string;
+  name?: string;
   email: string;
   password: string;
 }
@@ -78,5 +78,12 @@ export function validateUser(user: IUser) {
   });
   return schema.validate(user);
 }
+ export function validateAuth(user:IUser){
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+  })
+  return schema.validate(user);
+ }
 
 export default User;
