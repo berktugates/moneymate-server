@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/database";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
@@ -9,6 +9,8 @@ interface IUser {
   name?: string;
   email: string;
   password: string;
+  createdAt?:Date;
+  updatedAt?:Date;
 }
 
 //user modelini oluştur
@@ -17,8 +19,14 @@ class User extends Model<IUser> implements IUser {
   public name!: string;
   public email!: string;
   public password!: string;
+  public createdAt!:Date;
+  public updatedAt!:Date;
 
   public generateAuthToken(): string {
+    if (!process.env.JWT_SECRET_KEY) {
+      throw new Error('JWT_SECRET_KEY is not defined in environment variables');
+    }
+    
     const token = jwt.sign(
       { id: this.id, email: this.email },
       process.env.JWT_SECRET_KEY
@@ -47,6 +55,16 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull:false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull:false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
   },
   {

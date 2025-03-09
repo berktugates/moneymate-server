@@ -4,7 +4,7 @@ import { sendErrorResponse } from "../utils/sendErrorResponse";
 import User, { validateAuth, validateUser } from "../models/User";
 
 class UserController {
-  async auth(req: Request, res: Response) {
+  async auth(req: Request, res: Response): Promise<any> {
     try {
       const { error } = validateAuth(req.body);
       if (error) {
@@ -15,6 +15,7 @@ class UserController {
           email: req.body.email,
         },
       });
+      console.log("User Query Result:", user);
       if (!user) {
         return sendErrorResponse(res, 401, "Incorrect email or password.");
       }
@@ -34,7 +35,7 @@ class UserController {
     }
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<any> {
     try {
       const { error } = validateUser(req.body);
       if (error) {
@@ -66,7 +67,7 @@ class UserController {
       sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<any> {
     try {
       const user = await User.findByPk(req.params.id);
       if (!user) {
@@ -86,7 +87,7 @@ class UserController {
       console.log(err);
     }
   }
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response): Promise<any> {
     try {
       const user = await User.findByPk(req.params.id);
       if (!user) {
@@ -99,7 +100,7 @@ class UserController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async get(req: Request, res: Response) {
+  async get(req: Request, res: Response): Promise<any> {
     try {
       const user = await User.findByPk(req.params.id);
       if (!user) {
@@ -111,7 +112,7 @@ class UserController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response): Promise<any> {
     try {
       const users = await User.findAll();
       if (!users) {

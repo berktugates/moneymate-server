@@ -3,7 +3,7 @@ import { sendErrorResponse } from "../utils/sendErrorResponse";
 import Spending, { validateSpending } from "../models/Spending";
 
 class SpendingController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response):Promise<any> {
     try {
       const { error } = validateSpending(req.body);
       if (error) {
@@ -24,7 +24,7 @@ class SpendingController {
       sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response):Promise<any> {
     try {
       const spending = await Spending.findOne({
         where: {
@@ -52,7 +52,7 @@ class SpendingController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response):Promise<any> {
     try {
       const spending = await Spending.findOne({
         where: {
@@ -72,7 +72,7 @@ class SpendingController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async get(req: Request, res: Response) {
+  async get(req: Request, res: Response):Promise<any> {
     try {
       const spending = await Spending.findOne({
         where: {
@@ -89,7 +89,7 @@ class SpendingController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response):Promise<any> {
     try {
       const spendings = await Spending.findAll({
         where: {

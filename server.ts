@@ -6,6 +6,9 @@ import userRoute from "./routes/User";
 import categoryRoute from "./routes/Category";
 import incomeRoute from "./routes/Income";
 import spendingRoute from "./routes/Spending";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const app = express();
 app.use(json());

@@ -3,7 +3,7 @@ import Category, { validateCategory } from "../models/Category";
 import { sendErrorResponse } from "../utils/sendErrorResponse";
 
 class CategoryController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response):Promise<any> {
     try {
       const { error } = validateCategory(req.body);
       if (error) {
@@ -24,7 +24,7 @@ class CategoryController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response):Promise<any> {
     try {
       const category = await Category.findOne({
         where: {
@@ -51,7 +51,7 @@ class CategoryController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response):Promise<any> {
     try {
       const category = await Category.findOne({
         where: {
@@ -71,7 +71,7 @@ class CategoryController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async get(req: Request, res: Response) {
+  async get(req: Request, res: Response):Promise<any> {
     try {
       const category = await Category.findOne({
         where: {
@@ -88,7 +88,7 @@ class CategoryController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response):Promise<any> {
     try {
       const categories = await Category.findAll({
         where: {

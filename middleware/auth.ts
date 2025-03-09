@@ -1,7 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+// Request tipini genişletiyoruz
+declare global {
+  namespace Express {
+    interface Request {
+      user: any;
+    }
+  }
+}
+
+const authMiddleware = (req: Request, res: Response, next: NextFunction):any => {
   const token = req.header("Authorization-MoneyMate");
 
   if (!token) {

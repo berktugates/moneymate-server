@@ -7,3 +7,6 @@ export const authRateLimiter = rateLimit({
     "You have attempted to log in too many times. Please try again in 15 minutes.",
   headers: true,
 });
+
+// Default export ekliyoruz
+export default authRateLimiter;

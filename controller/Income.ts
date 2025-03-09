@@ -3,7 +3,7 @@ import { sendErrorResponse } from "../utils/sendErrorResponse";
 import Income, { validateIncome } from "../models/Income";
 
 class IncomeController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response):Promise<any> {
     try {
       const { error } = validateIncome(req.body);
       if (error) {
@@ -22,7 +22,7 @@ class IncomeController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response):Promise<any> {
     try {
       const income = await Income.findOne({
         where: {
@@ -49,7 +49,7 @@ class IncomeController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response):Promise<any> {
     try {
       const income = await Income.findOne({
         where: {
@@ -67,7 +67,7 @@ class IncomeController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async get(req: Request, res: Response) {
+  async get(req: Request, res: Response):Promise<any> {
     try {
       const income = await Income.findOne({
         where: {
@@ -84,7 +84,7 @@ class IncomeController {
       return sendErrorResponse(res, 500, "Internal server error.");
     }
   }
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response):Promise<any> {
     try {
       const incomes = await Income.findAll({
         where: {
